@@ -1,0 +1,8 @@
+## .env configuration
+
+```
+BOT_TOKEN=your_token
+GET_UPDATES_DELAY=1000
+RESPONSE_DELAY=50
+CONVERTER_CHECK_QUEUE_DELAY=500
+```
