@@ -84,7 +84,6 @@ export function eventsObserver({ getUpdates, sendMessages, converter }) {
     function appendToConverter({message}) {
         switch (message.caption) {
             case "png" || "jpg" || "bmp" || "/png" || "/jpg" || "/bmp":
-                console.log("!!!!!!!!!!!!!222222222222")
                 if (message.photo) {
                     queue.convert.push(message)
                 }

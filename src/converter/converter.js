@@ -1,9 +1,8 @@
 import { parentPort } from "node:worker_threads"
 import * as dotenv from "dotenv"
 import fs from "fs"
-import path from 'node:path';
-import url from 'node:url';
-import Jimp from "jimp";
+import path from "path"
+import "../const.cjs"
 
 dotenv.config()
 
@@ -14,7 +13,6 @@ async function converter(message) {
 
     setTimeout(async () => {
         if (message !== "none") {
-            console.log(message !== "none")
             const isSuccess = await convert(message);
             if (isSuccess) parentPort.postMessage("success");
             else parentPort.postMessage("error");
@@ -35,10 +33,9 @@ async function converter(message) {
             const DORNLOAD_FILE_URL = `https://api.telegram.org/file/bot${process.env.BOT_TOKEN}/${file_path}`
             const downloadResponse = await fetch(DORNLOAD_FILE_URL, { method: "GET" }).then(res => res.arrayBuffer()).then(ab => new Buffer.from(ab))
 
-            console.log(downloadResponse)
             const fn = file_path.split("/").pop();
-            const f_path = path.join(url.fileURLToPath(import.meta.url), fn)
-            fs.writeFile(f_path, downloadResponse, (err) => console.error("Error writing file." + err))
+            const f_path = path.join(__dirname, "../cache", fn)
+            fs.writeFileSync(f_path, downloadResponse)
 
             return true
 
