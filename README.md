@@ -3,7 +3,7 @@
 ## Description
 
 A simple telegram bot which is able to convert your images in these formats:  "png", "jpg", or "bmp".
-Just send an image to the bot as and attachment and insert a command via caption field.
+Just send an image to the bot as an attachment with one of the commands via caption field.
 
 ## Available commands
 
