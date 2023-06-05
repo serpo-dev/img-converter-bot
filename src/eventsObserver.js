@@ -81,9 +81,14 @@ export function eventsObserver({ getUpdates, sendMessages, converter }) {
 
 
 
-    function appendToConverter({message}) {
-        switch (message.caption) {
-            case "png" || "jpg" || "bmp" || "/png" || "/jpg" || "/bmp":
+    function appendToConverter(entity) {
+        const message = entity.message || entity.edited_message
+        if (!message.caption) return
+
+        switch (message.caption.replace("/", "")) {
+            case "png":
+            case "jpg":
+            case "bmp":
                 if (message.photo) {
                     queue.convert.push(message)
                 }

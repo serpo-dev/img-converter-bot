@@ -38,7 +38,7 @@ class Command {
         } else throw new Error(`The request has failed with status ${response.status}`)
     }
 
-    async run(entity, converter) {
+    async run(entity) {
         try {
             const message = entity.message || entity.edited_message;
             const { chat, text, caption } = message;
@@ -48,20 +48,26 @@ class Command {
                         chat_id: chat.id,
                         text: Message.start
                     })
-                case "png" || "jpg" || "bmp" || "/png" || "/jpg" || "/bmp":
-                    return await this.#request({
-                        chat_id: chat.id,
-                        text: Message.convert
-                    })
-                default:
-                    return await this.#request({
-                        chat_id: chat.id,
-                        text: Message.unknown
-                    })
             }
+            if (caption) {
+                switch (caption.replace("/", "")) {
+                    case "png":
+                    case "jpg":
+                    case "bmp":
+                        return await this.#request({
+                            chat_id: chat.id,
+                            text: Message.convert
+                        })
+                }
+            }
+
+            return await this.#request({
+                chat_id: chat.id,
+                text: Message.unknown
+            })
         } catch (error) {
             if (error.message.length < 200) {
-                // console.error(error.message, entity)
+                console.error(error.message, entity)
             } else {
                 console.error("Error happened in Command.run() method")
             }
